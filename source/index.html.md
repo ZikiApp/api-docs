@@ -44,23 +44,12 @@ We have language bindings in cURL, and HTTP! You can view code examples in the d
 The base URL of Ziki API is: `https://example.com`.
 The API provides a set of endpoints, each with its own unique path.
 
-## Authentication
-
-> You can use the `Authorization` header to authenticate your requests.
-
-```HTTP
-GET https://zikiapp.github.io/api-docs/v1/users/me
-Authorization: Bearer <token>
-```
-
-Based on REST principles, Ziki API Endpoints support authentication with secure API tokens using the standard HTTP Basic Authorization Header. This header must be attached to every request made to the Ziki system.
-
 ## Response Structure
 
-```js
+```json
 {
-  "statusCode": Number,
-  "message": String,
+  "statusCode": 200,
+  "message": "OK",
   "data": {}
 }
 ```
@@ -70,19 +59,23 @@ All response data is returned as a JSON object with the following overall struct
 <table>
   <tr>
     <th>Name</th>
+    <th>Type</th>
     <th>Description</th>
   </tr>
   <tr>
   <tr>
     <td>statusCode</td>
+    <td>Number</td>
     <td>The HTTP status code of the response.</td>
   </tr>
   <tr>
     <td>message</td>
+    <td>String</td>
     <td>A message describing the response.</td>
   </tr>
   <tr>
     <td>data</td>
+    <td>Object</td>
     <td>The data returned by the response.</td>
   </tr>
 </table>
@@ -93,14 +86,21 @@ All top-level API resources have support for bulk fetches via “list” API met
 
 You can specify further pages using the page parameter and specify page size. Other parameters include the sort, which will expect a string based attribute name, followed by asc or desc.
 
+```http
+GET https://example.com/api/v1/songs?page=1&limit=10 HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer <token>
+```
+
 ### Query parameters
 
-| Name | Description                                                                                    |
-| ---- | ---------------------------------------------------------------------------------------------- |
-| page | Specifies the page number to retrieve. Value must be between 0 and 100.                        |
-| size | Indicates how many records each page should contain. Value must be greater than or equal to 1. |
+| Name  | Description                                                                                    |
+| ----- | ---------------------------------------------------------------------------------------------- |
+| page  | Specifies the page number to retrieve. Value must be between 0 and 100.                        |
+| limit | Indicates how many records each page should contain. Value must be greater than or equal to 1. |
 
-# User Authentication
+# Authentication
 
 ## Sign Up
 
@@ -125,20 +125,20 @@ Accept: application/json
 
 > Example Response
 
-```js
+```json
 {
-    "statusCode": 201,
-    "message": "Signup Success.",
-    "data": {
-        "id": 1,
-        "fistName": "Jean",
-        "lastName": "Dupont",
-        "username": "jean_d01",
-        "email": "jeandupon@gmail.com",
-        "intro": "I am a web developer",
-        "profilePicUrl": "https://www.google.com/img/logo.png",
-        "registerAt": "2022-01-18T18:00:21.582Z"
-    }
+  "statusCode": 201,
+  "message": "Signup Success.",
+  "data": {
+    "id": 1,
+    "fistName": "Jean",
+    "lastName": "Dupont",
+    "username": "jean_d01",
+    "email": "jeandupon@gmail.com",
+    "intro": "I am a web developer",
+    "profilePicUrl": "https://www.google.com/img/logo.png",
+    "registerAt": "2022-01-18T18:00:21.582Z"
+  }
 }
 ```
 
@@ -178,23 +178,23 @@ Accept: application/json
 
 > Example Response
 
-```js
+```json
 {
-    "statusCode": 200,
-    "message": "User logged in successfully.",
-    "data": {
-        "user": {
-            "id": 1,
-            "fistName": "Jean",
-            "lastName": "Dupont",
-            "username": "jean_d01",
-            "email": "jeandupon@gmail.com",
-            "intro": "I am a web developer",
-            "profilePicUrl": "https://www.google.com/img/logo.png",
-            "registerAt": "2022-01-18T18:49:14.793Z"
-        },
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiamVhbmR1cG9uQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiamVhbl9kMDEiLCJpYXQiOjE2NDI1MzE4NjcsImV4cCI6MTY0MjYxODI2N30.Ngj04it4Sbn0Ap3q0qfNpjSnnwAscQwFc6AjN6WkIv4"
-    }
+  "statusCode": 200,
+  "message": "User logged in successfully.",
+  "data": {
+    "user": {
+      "id": 1,
+      "fistName": "Jean",
+      "lastName": "Dupont",
+      "username": "jean_d01",
+      "email": "jeandupon@gmail.com",
+      "intro": "I am a web developer",
+      "profilePicUrl": "https://www.google.com/img/logo.png",
+      "registerAt": "2022-01-18T18:49:14.793Z"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiamVhbmR1cG9uQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiamVhbl9kMDEiLCJpYXQiOjE2NDI1MzE4NjcsImV4cCI6MTY0MjYxODI2N30.Ngj04it4Sbn0Ap3q0qfNpjSnnwAscQwFc6AjN6WkIv4"
+  }
 }
 ```
 
@@ -211,174 +211,163 @@ The sign in endpoint is used to authenticate a user. It expects a email and pass
 | email    | string | true     | The user email    |
 | password | string | true     | The user password |
 
-# Kittens
+# Profile
 
-## Get All Kittens
+## Get User Profile
 
-```ruby
-require 'kittn'
+> Example Request
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+```http
+GET /api/v1/profile HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer <token>
 ```
 
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require("kittn");
-
-let api = kittn.authorize("meowmeowmeow");
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
+> Example Response
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+{
+  "statusCode": 200,
+  "message": "Get Profile Successful.",
+  "data": {
+    "fistName": "Jean",
+    "lastName": "Freddy",
+    "username": "Rogelio19",
+    "phone": 650504571,
+    "email": "Tomas25@hotmail.com",
+    "profilePicUrl": "http://placeimg.com/640/480"
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+The profile endpoint is used to retrieve the user profile.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET /api/v1/profile`
+
+### Request Header
+
+`Authorization: Bearer <token>`
+
+## Update User Profile
+
+> Example Request
+
+```http
+PUT /api/v1/profile HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer <token>
+{
+    "fistName": "Jean",
+    "lastName": "Freddy",
+    "phone": 650504571,
+    "intro": "I am a mobile developer"
+}
+```
+
+> Example Response
+
+```json
+{
+  "statusCode": 200,
+  "message": "Update Profile Successful.",
+  "data": {
+    "id": 11,
+    "fistName": "Jean",
+    "lastName": "Freddy",
+    "username": "Rogelio19",
+    "email": "Tomas25@hotmail.com",
+    "intro": "I am a mobile developer",
+    "profilePicUrl": "http://placeimg.com/640/480",
+    "registerAt": "2022-01-26T10:51:34.900Z"
+  }
+}
+```
+
+The profile endpoint is used to update the user profile.
+
+### HTTP Request
+
+`PUT /api/v1/profile`
+
+### Request Header
+
+| Name          | Type   | Required | Description    |
+| ------------- | ------ | -------- | -------------- |
+| Authorization | string | true     | The user token |
+
+### Request Body
+
+| Name     | Type   | Required | Description                      |
+| -------- | ------ | -------- | -------------------------------- |
+| fistName | string | true     | The user first name              |
+| lastName | string | true     | The user last name               |
+| phone    | number | true     | The user phone                   |
+| intro    | string | false    | A short introduction of the user |
+
+## Get profile by Id
+
+> Example Request
+
+```http
+GET /api/v1/profile/public/<ID> HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer <token>
+```
+
+> Example Response
+
+```json
+{
+  "statusCode": 200,
+  "message": "Get Public Profile Successful.",
+  "data": {
+    "username": "Quincy.Strosin",
+    "intro": "Reprehenderit soluta sit nostrum dolores minus aspernatur.",
+    "profilePicUrl": "http://placeimg.com/640/480",
+    "registerAt": "2022-01-26T10:29:26.420Z"
+  }
+}
+```
+
+The profile endpoint is used to retrieve the user profile by id.
+
+### HTTP Request
+
+`GET /api/v1/profile/public/<ID>`
+
+### Request Header
+
+| Name          | Type   | Required | Description    |
+| ------------- | ------ | -------- | -------------- |
+| Authorization | string | true     | The user token |
 
 ### Query Parameters
 
-| Parameter    | Default | Description                                                                      |
-| ------------ | ------- | -------------------------------------------------------------------------------- |
-| include_cats | false   | If set to true, the result will also include cats.                               |
-| available    | true    | If set to false, the result will include kittens that have already been adopted. |
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| ID   | int  | true     | The user id |
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+# Songs
+
+<aside>
+p.s. The songs endpoint is not implemented yet.
 </aside>
 
-## Get a Specific Kitten
+## Get All Songs
 
-```ruby
-require 'kittn'
+## Get Song by Id
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
+## Get Songs by User Id
 
-```python
-import kittn
+## Get Songs by Genre
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+## Create Song
 
-```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
-```
+## Update Song
 
-```javascript
-const kittn = require("kittn");
-
-let api = kittn.authorize("meowmeowmeow");
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-| Parameter | Description                      |
-| --------- | -------------------------------- |
-| ID        | The ID of the kitten to retrieve |
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require("kittn");
-
-let api = kittn.authorize("meowmeowmeow");
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted": ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-| Parameter | Description                    |
-| --------- | ------------------------------ |
-| ID        | The ID of the kitten to delete |
+## Delete Song
