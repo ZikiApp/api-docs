@@ -286,7 +286,7 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-e69413ee.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-d87570db.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-ac1271af.css" rel="stylesheet" media="print" />
       <script src="javascripts/all_nosearch-18c3ed8e.js"></script>
 
@@ -319,9 +319,6 @@
                     <a href="#base-url" class="toc-h2 toc-link" data-title="Base URL">Base URL</a>
                   </li>
                   <li>
-                    <a href="#authentication" class="toc-h2 toc-link" data-title="Authentication">Authentication</a>
-                  </li>
-                  <li>
                     <a href="#response-structure" class="toc-h2 toc-link" data-title="Response Structure">Response Structure</a>
                   </li>
                   <li>
@@ -330,7 +327,7 @@
               </ul>
           </li>
           <li>
-            <a href="#user-authentication" class="toc-h1 toc-link" data-title="User Authentication">User Authentication</a>
+            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#sign-up" class="toc-h2 toc-link" data-title="Sign Up">Sign Up</a>
@@ -341,16 +338,42 @@
               </ul>
           </li>
           <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#profile" class="toc-h1 toc-link" data-title="Profile">Profile</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#get-user-profile" class="toc-h2 toc-link" data-title="Get User Profile">Get User Profile</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
+                    <a href="#update-user-profile" class="toc-h2 toc-link" data-title="Update User Profile">Update User Profile</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#get-profile-by-id" class="toc-h2 toc-link" data-title="Get profile by Id">Get profile by Id</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#songs" class="toc-h1 toc-link" data-title="Songs">Songs</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-songs" class="toc-h2 toc-link" data-title="Get All Songs">Get All Songs</a>
+                  </li>
+                  <li>
+                    <a href="#get-song-by-id" class="toc-h2 toc-link" data-title="Get Song by Id">Get Song by Id</a>
+                  </li>
+                  <li>
+                    <a href="#get-songs-by-user-id" class="toc-h2 toc-link" data-title="Get Songs by User Id">Get Songs by User Id</a>
+                  </li>
+                  <li>
+                    <a href="#get-songs-by-genre" class="toc-h2 toc-link" data-title="Get Songs by Genre">Get Songs by Genre</a>
+                  </li>
+                  <li>
+                    <a href="#create-song" class="toc-h2 toc-link" data-title="Create Song">Create Song</a>
+                  </li>
+                  <li>
+                    <a href="#update-song" class="toc-h2 toc-link" data-title="Update Song">Update Song</a>
+                  </li>
+                  <li>
+                    <a href="#delete-song" class="toc-h2 toc-link" data-title="Delete Song">Delete Song</a>
                   </li>
               </ul>
           </li>
@@ -376,38 +399,34 @@
 <h2 id='base-url'>Base URL</h2>
 <p>The base URL of Ziki API is: <code>https://example.com</code>.
 The API provides a set of endpoints, each with its own unique path.</p>
-<h2 id='authentication'>Authentication</h2>
-<blockquote>
-<p>You can use the <code>Authorization</code> header to authenticate your requests.</p>
-</blockquote>
-<div class="highlight"><pre class="highlight plaintext"><code>GET https://zikiapp.github.io/api-docs/v1/users/me
-Authorization: Bearer &lt;token&gt;
-</code></pre></div>
-<p>Based on REST principles, Ziki API Endpoints support authentication with secure API tokens using the standard HTTP Basic Authorization Header. This header must be attached to every request made to the Ziki system.</p>
-<h2 id='response-structure'>Response Structure</h2><div class="highlight"><pre class="highlight javascript"><code><span class="p">{</span>
-  <span class="dl">"</span><span class="s2">statusCode</span><span class="dl">"</span><span class="p">:</span> <span class="nb">Number</span><span class="p">,</span>
-  <span class="dl">"</span><span class="s2">message</span><span class="dl">"</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
-  <span class="dl">"</span><span class="s2">data</span><span class="dl">"</span><span class="p">:</span> <span class="p">{}</span>
-<span class="p">}</span>
-</code></pre></div>
+<h2 id='response-structure'>Response Structure</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>All response data is returned as a JSON object with the following overall structure:</p>
 
 <table>
   <tr>
     <th>Name</th>
+    <th>Type</th>
     <th>Description</th>
   </tr>
   <tr>
   <tr>
     <td>statusCode</td>
+    <td>Number</td>
     <td>The HTTP status code of the response.</td>
   </tr>
   <tr>
     <td>message</td>
+    <td>String</td>
     <td>A message describing the response.</td>
   </tr>
   <tr>
     <td>data</td>
+    <td>Object</td>
     <td>The data returned by the response.</td>
   </tr>
 </table>
@@ -415,7 +434,11 @@ Authorization: Bearer &lt;token&gt;
 <p>All top-level API resources have support for bulk fetches via “list” API methods. These requests will be paginated to 20 items by default.</p>
 
 <p>You can specify further pages using the page parameter and specify page size. Other parameters include the sort, which will expect a string based attribute name, followed by asc or desc.</p>
-<h3 id='query-parameters'>Query parameters</h3>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://example.com/api/v1/songs?page=1&amp;limit=10</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;token&gt;</span>
+</code></pre></div><h3 id='query-parameters'>Query parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -427,11 +450,11 @@ Authorization: Bearer &lt;token&gt;
 <td>Specifies the page number to retrieve. Value must be between 0 and 100.</td>
 </tr>
 <tr>
-<td>size</td>
+<td>limit</td>
 <td>Indicates how many records each page should contain. Value must be greater than or equal to 1.</td>
 </tr>
 </tbody></table>
-<h1 id='user-authentication'>User Authentication</h1><h2 id='sign-up'>Sign Up</h2>
+<h1 id='authentication'>Authentication</h1><h2 id='sign-up'>Sign Up</h2>
 <blockquote>
 <p>Example Request</p>
 </blockquote>
@@ -453,21 +476,21 @@ Authorization: Bearer &lt;token&gt;
 <blockquote>
 <p>Example Response</p>
 </blockquote>
-<div class="highlight"><pre class="highlight javascript"><code><span class="p">{</span>
-    <span class="dl">"</span><span class="s2">statusCode</span><span class="dl">"</span><span class="p">:</span> <span class="mi">201</span><span class="p">,</span>
-    <span class="dl">"</span><span class="s2">message</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Signup Success.</span><span class="dl">"</span><span class="p">,</span>
-    <span class="dl">"</span><span class="s2">data</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">fistName</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Jean</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">lastName</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Dupont</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">username</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">jean_d01</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">email</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">jeandupon@gmail.com</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">intro</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">I am a web developer</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">profilePicUrl</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://www.google.com/img/logo.png</span><span class="dl">"</span><span class="p">,</span>
-        <span class="dl">"</span><span class="s2">registerAt</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2022-01-18T18:00:21.582Z</span><span class="dl">"</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">201</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Signup Success."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"fistName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jean"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dupont"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jean_d01"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jeandupon@gmail.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"intro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I am a web developer"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.google.com/img/logo.png"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"registerAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-01-18T18:00:21.582Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>Sign up for a new user account.</p>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code>POST /api/v1/auth/signup</code></p>
@@ -550,24 +573,24 @@ Authorization: Bearer &lt;token&gt;
 <blockquote>
 <p>Example Response</p>
 </blockquote>
-<div class="highlight"><pre class="highlight javascript"><code><span class="p">{</span>
-    <span class="dl">"</span><span class="s2">statusCode</span><span class="dl">"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-    <span class="dl">"</span><span class="s2">message</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">User logged in successfully.</span><span class="dl">"</span><span class="p">,</span>
-    <span class="dl">"</span><span class="s2">data</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="dl">"</span><span class="s2">user</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
-            <span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="dl">"</span><span class="s2">fistName</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Jean</span><span class="dl">"</span><span class="p">,</span>
-            <span class="dl">"</span><span class="s2">lastName</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Dupont</span><span class="dl">"</span><span class="p">,</span>
-            <span class="dl">"</span><span class="s2">username</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">jean_d01</span><span class="dl">"</span><span class="p">,</span>
-            <span class="dl">"</span><span class="s2">email</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">jeandupon@gmail.com</span><span class="dl">"</span><span class="p">,</span>
-            <span class="dl">"</span><span class="s2">intro</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">I am a web developer</span><span class="dl">"</span><span class="p">,</span>
-            <span class="dl">"</span><span class="s2">profilePicUrl</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">https://www.google.com/img/logo.png</span><span class="dl">"</span><span class="p">,</span>
-            <span class="dl">"</span><span class="s2">registerAt</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2022-01-18T18:49:14.793Z</span><span class="dl">"</span>
-        <span class="p">},</span>
-        <span class="dl">"</span><span class="s2">token</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiamVhbmR1cG9uQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiamVhbl9kMDEiLCJpYXQiOjE2NDI1MzE4NjcsImV4cCI6MTY0MjYxODI2N30.Ngj04it4Sbn0Ap3q0qfNpjSnnwAscQwFc6AjN6WkIv4</span><span class="dl">"</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User logged in successfully."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"fistName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jean"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dupont"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jean_d01"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jeandupon@gmail.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"intro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I am a web developer"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.google.com/img/logo.png"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"registerAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-01-18T18:49:14.793Z"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiamVhbmR1cG9uQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiamVhbl9kMDEiLCJpYXQiOjE2NDI1MzE4NjcsImV4cCI6MTY0MjYxODI2N30.Ngj04it4Sbn0Ap3q0qfNpjSnnwAscQwFc6AjN6WkIv4"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>The sign in endpoint is used to authenticate a user. It expects a email and password in the request body. The response will contain a token that can be used to authenticate future requests.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
 <p><code>POST /api/v1/auth/signin</code></p>
@@ -593,150 +616,185 @@ Authorization: Bearer &lt;token&gt;
 <td>The user password</td>
 </tr>
 </tbody></table>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">kittn</span><span class="dl">"</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">"</span><span class="s2">meowmeowmeow</span><span class="dl">"</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">();</span>
+<h1 id='profile'>Profile</h1><h2 id='get-user-profile'>Get User Profile</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">/api/v1/profile</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;token&gt;</span>
 </code></pre></div>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Example Response</p>
 </blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Get Profile Successful."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"fistName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jean"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Freddy"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rogelio19"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="mi">650504571</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tomas25@hotmail.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://placeimg.com/640/480"</span><span class="w">
   </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>This endpoint retrieves all kittens.</p>
+<p>The profile endpoint is used to retrieve the user profile.</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
+<p><code>GET /api/v1/profile</code></p>
+<h3 id='request-header'>Request Header</h3>
+<p><code>Authorization: Bearer &lt;token&gt;</code></p>
+<h2 id='update-user-profile'>Update User Profile</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">PUT</span> <span class="nn">/api/v1/profile</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;token&gt;</span>
+<span class="s">{</span>
+<span class="s">    "fistName": "Jean",</span>
+<span class="s">    "lastName": "Freddy",</span>
+<span class="s">    "phone": 650504571,</span>
+<span class="s">    "intro": "I am a mobile developer"</span>
+<span class="s">}</span>
+</code></pre></div>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Update Profile Successful."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"fistName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jean"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Freddy"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rogelio19"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tomas25@hotmail.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"intro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I am a mobile developer"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://placeimg.com/640/480"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"registerAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-01-26T10:51:34.900Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>The profile endpoint is used to update the user profile.</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>PUT /api/v1/profile</code></p>
+<h3 id='request-header-2'>Request Header</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Authorization</td>
+<td>string</td>
+<td>true</td>
+<td>The user token</td>
+</tr>
+</tbody></table>
+<h3 id='request-body-3'>Request Body</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>fistName</td>
+<td>string</td>
+<td>true</td>
+<td>The user first name</td>
+</tr>
+<tr>
+<td>lastName</td>
+<td>string</td>
+<td>true</td>
+<td>The user last name</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>number</td>
+<td>true</td>
+<td>The user phone</td>
+</tr>
+<tr>
+<td>intro</td>
+<td>string</td>
+<td>false</td>
+<td>A short introduction of the user</td>
+</tr>
+</tbody></table>
+<h2 id='get-profile-by-id'>Get profile by Id</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">/api/v1/profile/public/&lt;ID&gt;</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;token&gt;</span>
+</code></pre></div>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Get Public Profile Successful."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Quincy.Strosin"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"intro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Reprehenderit soluta sit nostrum dolores minus aspernatur."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://placeimg.com/640/480"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"registerAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-01-26T10:29:26.420Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>The profile endpoint is used to retrieve the user profile by id.</p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>GET /api/v1/profile/public/&lt;ID&gt;</code></p>
+<h3 id='request-header-3'>Request Header</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Authorization</td>
+<td>string</td>
+<td>true</td>
+<td>The user token</td>
+</tr>
+</tbody></table>
 <h3 id='query-parameters-2'>Query Parameters</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Default</th>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
+<td>ID</td>
+<td>int</td>
 <td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>The user id</td>
 </tr>
 </tbody></table>
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+<h1 id='songs'>Songs</h1>
+<aside>
+p.s. The songs endpoint is not implemented yet.
 </aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">kittn</span><span class="dl">"</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">"</span><span class="s2">meowmeowmeow</span><span class="dl">"</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre></div>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-4'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
-</tr>
-</tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span> <span class="se">\</span>
-  <span class="nt">-X</span> DELETE <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">kittn</span><span class="dl">"</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">"</span><span class="s2">meowmeowmeow</span><span class="dl">"</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre></div>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-5'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
-</tr>
-</tbody></table>
-<h1 id='errors'>Errors</h1>
+<h2 id='get-all-songs'>Get All Songs</h2><h2 id='get-song-by-id'>Get Song by Id</h2><h2 id='get-songs-by-user-id'>Get Songs by User Id</h2><h2 id='get-songs-by-genre'>Get Songs by Genre</h2><h2 id='create-song'>Create Song</h2><h2 id='update-song'>Update Song</h2><h2 id='delete-song'>Delete Song</h2><h1 id='errors'>Errors</h1>
 <p>The Ziki API uses the following error codes:</p>
 
 <table><thead>
