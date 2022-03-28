@@ -1,9 +1,8 @@
 ---
-title: API Reference
+title: Ziki API Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - HTTP
-  - JSON
+  - CURL
 
 # toc_footers:
 #   - <a href='#'>Sign Up for a Developer Key</a>
@@ -41,15 +40,19 @@ We have language bindings in cURL, and HTTP! You can view code examples in the d
 
 ## Base URL
 
-The base URL of Ziki API is: `https://example.com`.
+The base URL of Ziki API is: `https://example.com/api/v1`. You can use this URL to access the Ziki API endpoints.
 The API provides a set of endpoints, each with its own unique path.
+
+## i18n (Internationalization)
+
+The Ziki API is internationalized. You can use the `x-custom-lang` header to specify the language you want to use. The list of supported languages is: [`en`, `fr`] (default: `en`) and default language is `en`.
 
 ## Response Structure
 
 ```json
 {
   "statusCode": 200,
-  "message": "OK",
+  "message": "Success message",
   "data": {}
 }
 ```
@@ -86,11 +89,8 @@ All top-level API resources have support for bulk fetches via “list” API met
 
 You can specify further pages using the page parameter and specify page size. Other parameters include the sort, which will expect a string based attribute name, followed by asc or desc.
 
-```http
-GET https://example.com/api/v1/songs?page=1&limit=10 HTTP/1.1
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer <token>
+```curl
+curl -X GET '<baseUrl>/songs?page=1&limit=10' -H 'Authorization: Bearer <token>'
 ```
 
 ### Query parameters
@@ -106,12 +106,9 @@ Authorization: Bearer <token>
 
 > Example Request
 
-```http
-POST /api/v1/auth/signup HTTP/1.1
-Content-Type: application/json
-Accept: application/json
-{
-    "fistName": "Jean",
+```curl
+curl -X POST '<baseUrl>/auth/signup'  -d '{
+  "firstName": "Jean",
     "lastName": "Dupont",
     "username": "jean_d01",
     "gender": "Male",
@@ -120,7 +117,7 @@ Accept: application/json
     "password": "@Password#123",
     "profilPicUrl": "https://www.google.com/img/logo.png",
     "intro": "I am a web developer"
-}
+}'
 ```
 
 > Example Response
@@ -128,7 +125,7 @@ Accept: application/json
 ```json
 {
   "statusCode": 201,
-  "message": "Signup Success.",
+  "message": "User created successfully.",
   "data": {
     "id": 1,
     "fistName": "Jean",
@@ -146,13 +143,13 @@ Sign up for a new user account.
 
 ### HTTP Request
 
-`POST /api/v1/auth/signup`
+`POST /auth/signup`
 
 ### Request Body
 
 | Name         | Type   | Required | Description                                                              |
 | ------------ | ------ | -------- | ------------------------------------------------------------------------ |
-| fistName     | string | true     | The first name of the user                                               |
+| firstName    | string | true     | The first name of the user                                               |
 | lastName     | string | true     | The last name of the user                                                |
 | username     | string | true     | The username of the user                                                 |
 | gender       | string | true     | Gender as provided by the user. Can be "Male", "Female" or "Transgender" |
@@ -166,14 +163,11 @@ Sign up for a new user account.
 
 > Example Request
 
-```http
-POST /api/v1/auth/signin HTTP/1.1
-Content-Type: application/json
-Accept: application/json
-{
-    "email": "jeandupon@gmail.com",
-    "password": "@Password#123"
-}
+```curl
+curl -X POST '<baseUrl>/auth/signin' -H 'x-custom-lang: fr'  -d '{
+  "email": "jeandupon@gmail.com",
+  "password": "@Password#123"
+}'
 ```
 
 > Example Response
@@ -181,7 +175,7 @@ Accept: application/json
 ```json
 {
   "statusCode": 200,
-  "message": "User logged in successfully.",
+  "message": "Utilisateur connecté avec succès",
   "data": {
     "user": {
       "id": 1,
@@ -202,7 +196,7 @@ The sign in endpoint is used to authenticate a user. It expects a email and pass
 
 ### HTTP Request
 
-`POST /api/v1/auth/signin`
+`POST /auth/signin`
 
 ### Request Body
 
@@ -217,11 +211,8 @@ The sign in endpoint is used to authenticate a user. It expects a email and pass
 
 > Example Request
 
-```http
-GET /api/v1/profile HTTP/1.1
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer <token>
+```curl
+curl -X GET '<baseUrl>/profile' -H 'Authorization: Bearer <token>'
 ```
 
 > Example Response
@@ -229,14 +220,26 @@ Authorization: Bearer <token>
 ```json
 {
   "statusCode": 200,
-  "message": "Get Profile Successful.",
+  "message": "Profile successfully fetched",
   "data": {
+    "id": 1,
     "fistName": "Jean",
     "lastName": "Freddy",
     "username": "Rogelio19",
+    "gender": "Male",
     "phone": 650504571,
     "email": "Tomas25@hotmail.com",
-    "profilePicUrl": "http://placeimg.com/640/480"
+    "profilePicUrl": "http://placeimg.com/640/480",
+    "isVerified": false,
+    "followersCount": 0,
+    "followingCount": 0,
+    "songCount": 0,
+    "playlistCount": 0,
+    "lastLogin": "2022-03-27T22:39:32.081Z",
+    "status": {
+      "id": 1,
+      "name": "Active"
+    }
   }
 }
 ```
@@ -245,27 +248,28 @@ The profile endpoint is used to retrieve the user profile.
 
 ### HTTP Request
 
-`GET /api/v1/profile`
+`GET /profile`
 
 ### Request Header
 
-`Authorization: Bearer <token>`
+| Name          | Type   | Required | Description    |
+| ------------- | ------ | -------- | -------------- |
+| Authorization | Bearer | true     | The user token |
+
+If the user is not authenticated, the response will contain a 401 status code.
+The response will also contain a message explaining the error.
 
 ## Update User Profile
 
 > Example Request
 
-```http
-PUT /api/v1/profile HTTP/1.1
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer <token>
-{
-    "fistName": "Jean",
+```curl
+curl -X PUT '<baseUrl>/profile' -H 'Authorization: Bearer <token>' -d '{
+   "fistName": "Jean",
     "lastName": "Freddy",
-    "phone": 650504571,
-    "intro": "I am a mobile developer"
-}
+    "username": "Rogelio20",
+    "phone": 650504570,
+}'
 ```
 
 > Example Response
@@ -273,25 +277,19 @@ Authorization: Bearer <token>
 ```json
 {
   "statusCode": 200,
-  "message": "Update Profile Successful.",
+  "message": "Profile successfully updated",
   "data": {
-    "id": 11,
-    "fistName": "Jean",
-    "lastName": "Freddy",
-    "username": "Rogelio19",
-    "email": "Tomas25@hotmail.com",
-    "intro": "I am a mobile developer",
-    "profilePicUrl": "http://placeimg.com/640/480",
-    "registerAt": "2022-01-26T10:51:34.900Z"
+    "id": 1
   }
 }
 ```
 
 The profile endpoint is used to update the user profile.
+If the username is already taken, the response will contain a 409 status code. Same for the email and the phone.
 
 ### HTTP Request
 
-`PUT /api/v1/profile`
+`PUT /profile`
 
 ### Request Header
 
@@ -301,22 +299,24 @@ The profile endpoint is used to update the user profile.
 
 ### Request Body
 
-| Name     | Type   | Required | Description                      |
-| -------- | ------ | -------- | -------------------------------- |
-| fistName | string | true     | The user first name              |
-| lastName | string | true     | The user last name               |
-| phone    | number | true     | The user phone                   |
-| intro    | string | false    | A short introduction of the user |
+| Name         | Type   | Required | Description          |
+| ------------ | ------ | -------- | -------------------- |
+| firstName    | string | false    | The user first name  |
+| lastName     | string | false    | The user last name   |
+| phone        | number | false    | The user phone       |
+| username     | string | false    | The user username    |
+| email        | string | false    | The user email       |
+| profilPicUrl | string | false    | Profile photo        |
+| intro        | string | false    | A short introduction |
 
-## Get profile by Id
+## Upload Profile Picture
 
 > Example Request
 
-```http
-GET /api/v1/profile/public/<ID> HTTP/1.1
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer <token>
+```curl
+curl -X POST '<baseUrl>/profile/profile-pic' -H 'Authorization: Bearer <token>' -d '{
+   "profilePicUrl": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
+}'
 ```
 
 > Example Response
@@ -324,21 +324,18 @@ Authorization: Bearer <token>
 ```json
 {
   "statusCode": 200,
-  "message": "Get Public Profile Successful.",
+  "message": "Profile picture successfully uploaded",
   "data": {
-    "username": "Quincy.Strosin",
-    "intro": "Reprehenderit soluta sit nostrum dolores minus aspernatur.",
-    "profilePicUrl": "http://placeimg.com/640/480",
-    "registerAt": "2022-01-26T10:29:26.420Z"
+    "userId": 1
   }
 }
 ```
 
-The profile endpoint is used to retrieve the user profile by id.
+This endpoint is used to upload a profile picture.
 
 ### HTTP Request
 
-`GET /api/v1/profile/public/<ID>`
+`POST /profile/profile-pic`
 
 ### Request Header
 
@@ -346,15 +343,108 @@ The profile endpoint is used to retrieve the user profile by id.
 | ------------- | ------ | -------- | -------------- |
 | Authorization | string | true     | The user token |
 
-### Query Parameters
+### Request Body
 
-| Name | Type | Required | Description |
-| ---- | ---- | -------- | ----------- |
-| ID   | int  | true     | The user id |
+| Name         | Type   | Required | Description          |
+| ------------ | ------ | -------- | -------------------- |
+| profilPicUrl | string | true     | User profile picture |
+
+## Change Password
+
+> Example Request
+
+```curl
+curl -X POST '<baseUrl>/profile/change-password' -H 'Authorization: Bearer <token>' -d '{
+  "oldPassword": "Password1",
+  "newPassword": "Password2"
+}
+```
+
+> Example Response
+
+```json
+{
+  "statusCode": 200,
+  "message": "Password successfully changed",
+  "data": {
+    "userId": 1
+  }
+}
+```
+
+This endpoint is used to change user's password.
+
+### HTTP Request
+
+`POST /profile/change-password`
+
+### Request Header
+
+| Name          | Type   | Required | Description    |
+| ------------- | ------ | -------- | -------------- |
+| Authorization | string | true     | The user token |
+
+### Request Body
+
+| Name        | Type   | Required | Description           |
+| ----------- | ------ | -------- | --------------------- |
+| oldPassword | string | true     | Current user passowrd |
+| newPassword | string | true     | New user password     |
+
+If the old password is the same as the new password, the response will contain a 400 status code.
+The response will also contain a message explaining the error.
 
 # Songs
 
-<aside>
+## Create Song
+
+> Example Request
+
+```curl
+curl -X POST '<baseUrl>/profile/change-password' -H 'Authorization: Bearer <token>' -d '{
+  "title": "Sound Helix",
+  "imageUrl": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
+  "songUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+  "duration": 360,
+  "genre": "Pop"
+}
+```
+
+> Example Response
+
+```json
+{
+  "statusCode": 200,
+  "message": "Song created successfully",
+  "data": {
+    "songId": 1
+  }
+}
+```
+
+This endpoint is used to create a song.
+
+### HTTP Request
+
+`POST /songs/create`
+
+### Request Header
+
+| Name          | Type   | Required | Description    |
+| ------------- | ------ | -------- | -------------- |
+| Authorization | string | true     | The user token |
+
+### Request Body
+
+| Name     | Type   | Required | Description       |
+| -------- | ------ | -------- | ----------------- |
+| title    | string | true     | The song title    |
+| imageUrl | string | true     | The song image    |
+| songUrl  | string | true     | The song url      |
+| duration | number | true     | The song duration |
+| genre    | string | true     | The song genre    |
+
+<!-- <aside>
 p.s. The songs endpoint is not implemented yet.
 </aside>
 
@@ -370,4 +460,4 @@ p.s. The songs endpoint is not implemented yet.
 
 ## Update Song
 
-## Delete Song
+## Delete Song -->

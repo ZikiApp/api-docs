@@ -61,3 +61,10 @@ set :port, 4567
 helpers do
   require './lib/toc_data.rb'
 end
+
+# Global variables
+set :base_url, 'https://example.com/api/v1'
+config[:base_url] # use <%= config[:base_url] %> anywhere in your templates
+
+set :token, '123456789'
+config[:token] # use <%= config[:token] %> anywhere in your templates
