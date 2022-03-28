@@ -9,7 +9,7 @@
             name="description"
             content="Documentation for the Ziki API"
         >
-    <title>API Reference</title>
+    <title>Ziki API Documentation</title>
 
     <style media="screen">
       .highlight table td { padding: 5px; }
@@ -295,7 +295,7 @@
     </script>
   </head>
 
-  <body class="index" data-languages="[&quot;HTTP&quot;,&quot;JSON&quot;]">
+  <body class="index" data-languages="[&quot;CURL&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -305,8 +305,7 @@
     <div class="toc-wrapper">
       <img src="images/logo-1e815a84.png" class="logo" alt="" />
         <div class="lang-selector">
-              <a href="#" data-language-name="HTTP">HTTP</a>
-              <a href="#" data-language-name="JSON">JSON</a>
+              <a href="#" data-language-name="CURL">CURL</a>
         </div>
       <ul id="toc" class="toc-list-h1">
           <li>
@@ -317,6 +316,9 @@
                   </li>
                   <li>
                     <a href="#base-url" class="toc-h2 toc-link" data-title="Base URL">Base URL</a>
+                  </li>
+                  <li>
+                    <a href="#i18n-internationalization" class="toc-h2 toc-link" data-title="i18n (Internationalization)">i18n (Internationalization)</a>
                   </li>
                   <li>
                     <a href="#response-structure" class="toc-h2 toc-link" data-title="Response Structure">Response Structure</a>
@@ -347,7 +349,10 @@
                     <a href="#update-user-profile" class="toc-h2 toc-link" data-title="Update User Profile">Update User Profile</a>
                   </li>
                   <li>
-                    <a href="#get-profile-by-id" class="toc-h2 toc-link" data-title="Get profile by Id">Get profile by Id</a>
+                    <a href="#upload-profile-picture" class="toc-h2 toc-link" data-title="Upload Profile Picture">Upload Profile Picture</a>
+                  </li>
+                  <li>
+                    <a href="#change-password" class="toc-h2 toc-link" data-title="Change Password">Change Password</a>
                   </li>
               </ul>
           </li>
@@ -355,25 +360,7 @@
             <a href="#songs" class="toc-h1 toc-link" data-title="Songs">Songs</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-songs" class="toc-h2 toc-link" data-title="Get All Songs">Get All Songs</a>
-                  </li>
-                  <li>
-                    <a href="#get-song-by-id" class="toc-h2 toc-link" data-title="Get Song by Id">Get Song by Id</a>
-                  </li>
-                  <li>
-                    <a href="#get-songs-by-user-id" class="toc-h2 toc-link" data-title="Get Songs by User Id">Get Songs by User Id</a>
-                  </li>
-                  <li>
-                    <a href="#get-songs-by-genre" class="toc-h2 toc-link" data-title="Get Songs by Genre">Get Songs by Genre</a>
-                  </li>
-                  <li>
                     <a href="#create-song" class="toc-h2 toc-link" data-title="Create Song">Create Song</a>
-                  </li>
-                  <li>
-                    <a href="#update-song" class="toc-h2 toc-link" data-title="Update Song">Update Song</a>
-                  </li>
-                  <li>
-                    <a href="#delete-song" class="toc-h2 toc-link" data-title="Delete Song">Delete Song</a>
                   </li>
               </ul>
           </li>
@@ -397,11 +384,13 @@
 
 <p>We have language bindings in cURL, and HTTP! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
 <h2 id='base-url'>Base URL</h2>
-<p>The base URL of Ziki API is: <code>https://example.com</code>.
+<p>The base URL of Ziki API is: <code>https://example.com/api/v1</code>. You can use this URL to access the Ziki API endpoints.
 The API provides a set of endpoints, each with its own unique path.</p>
+<h2 id='i18n-internationalization'>i18n (Internationalization)</h2>
+<p>The Ziki API is internationalized. You can use the <code>x-custom-lang</code> header to specify the language you want to use. The list of supported languages is: <a href="default:%20`en`"><code>en</code>, <code>fr</code></a> and default language is <code>en</code>.</p>
 <h2 id='response-structure'>Response Structure</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success message"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
@@ -434,10 +423,7 @@ The API provides a set of endpoints, each with its own unique path.</p>
 <p>All top-level API resources have support for bulk fetches via “list” API methods. These requests will be paginated to 20 items by default.</p>
 
 <p>You can specify further pages using the page parameter and specify page size. Other parameters include the sort, which will expect a string based attribute name, followed by asc or desc.</p>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">https://example.com/api/v1/songs?page=1&amp;limit=10</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;token&gt;</span>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X GET '&lt;baseUrl&gt;/songs?page=1&amp;limit=10' -H 'Authorization: Bearer &lt;token&gt;'
 </code></pre></div><h3 id='query-parameters'>Query parameters</h3>
 <table><thead>
 <tr>
@@ -458,27 +444,24 @@ The API provides a set of endpoints, each with its own unique path.</p>
 <blockquote>
 <p>Example Request</p>
 </blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">POST</span> <span class="nn">/api/v1/auth/signup</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="s">{</span>
-<span class="s">    "fistName": "Jean",</span>
-<span class="s">    "lastName": "Dupont",</span>
-<span class="s">    "username": "jean_d01",</span>
-<span class="s">    "gender": "Male",</span>
-<span class="s">    "email": "jeandupon@gmail.com",</span>
-<span class="s">    "phone": 650504571,</span>
-<span class="s">    "password": "@Password#123",</span>
-<span class="s">    "profilPicUrl": "https://www.google.com/img/logo.png",</span>
-<span class="s">    "intro": "I am a web developer"</span>
-<span class="s">}</span>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/auth/signup'  -d '{
+  "firstName": "Jean",
+    "lastName": "Dupont",
+    "username": "jean_d01",
+    "gender": "Male",
+    "email": "jeandupon@gmail.com",
+    "phone": 650504571,
+    "password": "@Password#123",
+    "profilPicUrl": "https://www.google.com/img/logo.png",
+    "intro": "I am a web developer"
+}'
 </code></pre></div>
 <blockquote>
 <p>Example Response</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">201</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Signup Success."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User created successfully."</span><span class="p">,</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="nl">"fistName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jean"</span><span class="p">,</span><span class="w">
@@ -493,7 +476,7 @@ The API provides a set of endpoints, each with its own unique path.</p>
 </span></code></pre></div>
 <p>Sign up for a new user account.</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>POST /api/v1/auth/signup</code></p>
+<p><code>POST /auth/signup</code></p>
 <h3 id='request-body'>Request Body</h3>
 <table><thead>
 <tr>
@@ -504,7 +487,7 @@ The API provides a set of endpoints, each with its own unique path.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>fistName</td>
+<td>firstName</td>
 <td>string</td>
 <td>true</td>
 <td>The first name of the user</td>
@@ -562,20 +545,17 @@ The API provides a set of endpoints, each with its own unique path.</p>
 <blockquote>
 <p>Example Request</p>
 </blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">POST</span> <span class="nn">/api/v1/auth/signin</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="s">{</span>
-<span class="s">    "email": "jeandupon@gmail.com",</span>
-<span class="s">    "password": "@Password#123"</span>
-<span class="s">}</span>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/auth/signin' -H 'x-custom-lang: fr'  -d '{
+  "email": "jeandupon@gmail.com",
+  "password": "@Password#123"
+}'
 </code></pre></div>
 <blockquote>
 <p>Example Response</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User logged in successfully."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Utilisateur connecté avec succès"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
@@ -593,7 +573,7 @@ The API provides a set of endpoints, each with its own unique path.</p>
 </span></code></pre></div>
 <p>The sign in endpoint is used to authenticate a user. It expects a email and password in the request body. The response will contain a token that can be used to authenticate future requests.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>POST /api/v1/auth/signin</code></p>
+<p><code>POST /auth/signin</code></p>
 <h3 id='request-body-2'>Request Body</h3>
 <table><thead>
 <tr>
@@ -620,68 +600,84 @@ The API provides a set of endpoints, each with its own unique path.</p>
 <blockquote>
 <p>Example Request</p>
 </blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">/api/v1/profile</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;token&gt;</span>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X GET '&lt;baseUrl&gt;/profile' -H 'Authorization: Bearer &lt;token&gt;'
 </code></pre></div>
 <blockquote>
 <p>Example Response</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Get Profile Successful."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Profile successfully fetched"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="nl">"fistName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jean"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Freddy"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rogelio19"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Male"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="mi">650504571</span><span class="p">,</span><span class="w">
     </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tomas25@hotmail.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://placeimg.com/640/480"</span><span class="w">
+    </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://placeimg.com/640/480"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"isVerified"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"followersCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"followingCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"songCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"playlistCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lastLogin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-27T22:39:32.081Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Active"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>The profile endpoint is used to retrieve the user profile.</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><code>GET /api/v1/profile</code></p>
+<p><code>GET /profile</code></p>
 <h3 id='request-header'>Request Header</h3>
-<p><code>Authorization: Bearer &lt;token&gt;</code></p>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Authorization</td>
+<td>Bearer</td>
+<td>true</td>
+<td>The user token</td>
+</tr>
+</tbody></table>
+
+<p>If the user is not authenticated, the response will contain a 401 status code.
+The response will also contain a message explaining the error.</p>
 <h2 id='update-user-profile'>Update User Profile</h2>
 <blockquote>
 <p>Example Request</p>
 </blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">PUT</span> <span class="nn">/api/v1/profile</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;token&gt;</span>
-<span class="s">{</span>
-<span class="s">    "fistName": "Jean",</span>
-<span class="s">    "lastName": "Freddy",</span>
-<span class="s">    "phone": 650504571,</span>
-<span class="s">    "intro": "I am a mobile developer"</span>
-<span class="s">}</span>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X PUT '&lt;baseUrl&gt;/profile' -H 'Authorization: Bearer &lt;token&gt;' -d '{
+   "fistName": "Jean",
+    "lastName": "Freddy",
+    "username": "Rogelio20",
+    "phone": 650504570,
+}'
 </code></pre></div>
 <blockquote>
 <p>Example Response</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Update Profile Successful."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Profile successfully updated"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fistName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jean"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Freddy"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rogelio19"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tomas25@hotmail.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"intro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I am a mobile developer"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://placeimg.com/640/480"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"registerAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-01-26T10:51:34.900Z"</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>The profile endpoint is used to update the user profile.</p>
+<p>The profile endpoint is used to update the user profile.
+If the username is already taken, the response will contain a 409 status code. Same for the email and the phone.</p>
 <h3 id='http-request-4'>HTTP Request</h3>
-<p><code>PUT /api/v1/profile</code></p>
+<p><code>PUT /profile</code></p>
 <h3 id='request-header-2'>Request Header</h3>
 <table><thead>
 <tr>
@@ -708,56 +704,70 @@ The API provides a set of endpoints, each with its own unique path.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>fistName</td>
+<td>firstName</td>
 <td>string</td>
-<td>true</td>
+<td>false</td>
 <td>The user first name</td>
 </tr>
 <tr>
 <td>lastName</td>
 <td>string</td>
-<td>true</td>
+<td>false</td>
 <td>The user last name</td>
 </tr>
 <tr>
 <td>phone</td>
 <td>number</td>
-<td>true</td>
+<td>false</td>
 <td>The user phone</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>false</td>
+<td>The user username</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>false</td>
+<td>The user email</td>
+</tr>
+<tr>
+<td>profilPicUrl</td>
+<td>string</td>
+<td>false</td>
+<td>Profile photo</td>
 </tr>
 <tr>
 <td>intro</td>
 <td>string</td>
 <td>false</td>
-<td>A short introduction of the user</td>
+<td>A short introduction</td>
 </tr>
 </tbody></table>
-<h2 id='get-profile-by-id'>Get profile by Id</h2>
+<h2 id='upload-profile-picture'>Upload Profile Picture</h2>
 <blockquote>
 <p>Example Request</p>
 </blockquote>
-<div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">/api/v1/profile/public/&lt;ID&gt;</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;token&gt;</span>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/profile/profile-pic' -H 'Authorization: Bearer &lt;token&gt;' -d '{
+   "profilePicUrl": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg"
+}'
 </code></pre></div>
 <blockquote>
 <p>Example Response</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Get Public Profile Successful."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Profile picture successfully uploaded"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Quincy.Strosin"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"intro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Reprehenderit soluta sit nostrum dolores minus aspernatur."</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://placeimg.com/640/480"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"registerAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-01-26T10:29:26.420Z"</span><span class="w">
+    </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>The profile endpoint is used to retrieve the user profile by id.</p>
+<p>This endpoint is used to upload a profile picture.</p>
 <h3 id='http-request-5'>HTTP Request</h3>
-<p><code>GET /api/v1/profile/public/&lt;ID&gt;</code></p>
+<p><code>POST /profile/profile-pic</code></p>
 <h3 id='request-header-3'>Request Header</h3>
 <table><thead>
 <tr>
@@ -774,7 +784,7 @@ The API provides a set of endpoints, each with its own unique path.</p>
 <td>The user token</td>
 </tr>
 </tbody></table>
-<h3 id='query-parameters-2'>Query Parameters</h3>
+<h3 id='request-body-4'>Request Body</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -784,17 +794,177 @@ The API provides a set of endpoints, each with its own unique path.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>int</td>
+<td>profilPicUrl</td>
+<td>string</td>
 <td>true</td>
-<td>The user id</td>
+<td>User profile picture</td>
 </tr>
 </tbody></table>
-<h1 id='songs'>Songs</h1>
-<aside>
+<h2 id='change-password'>Change Password</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/profile/change-password' -H 'Authorization: Bearer &lt;token&gt;' -d '{
+  "oldPassword": "Password1",
+  "newPassword": "Password2"
+}
+</code></pre></div>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password successfully changed"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint is used to change user&#39;s password.</p>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>POST /profile/change-password</code></p>
+<h3 id='request-header-4'>Request Header</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Authorization</td>
+<td>string</td>
+<td>true</td>
+<td>The user token</td>
+</tr>
+</tbody></table>
+<h3 id='request-body-5'>Request Body</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>oldPassword</td>
+<td>string</td>
+<td>true</td>
+<td>Current user passowrd</td>
+</tr>
+<tr>
+<td>newPassword</td>
+<td>string</td>
+<td>true</td>
+<td>New user password</td>
+</tr>
+</tbody></table>
+
+<p>If the old password is the same as the new password, the response will contain a 400 status code.
+The response will also contain a message explaining the error.</p>
+<h1 id='songs'>Songs</h1><h2 id='create-song'>Create Song</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/profile/change-password' -H 'Authorization: Bearer &lt;token&gt;' -d '{
+  "title": "Sound Helix",
+  "imageUrl": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
+  "songUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+  "duration": 360,
+  "genre": "Pop"
+}
+</code></pre></div>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Song created successfully"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"songId"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint is used to create a song.</p>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>POST /songs/create</code></p>
+<h3 id='request-header-5'>Request Header</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Authorization</td>
+<td>string</td>
+<td>true</td>
+<td>The user token</td>
+</tr>
+</tbody></table>
+<h3 id='request-body-6'>Request Body</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>true</td>
+<td>The song title</td>
+</tr>
+<tr>
+<td>imageUrl</td>
+<td>string</td>
+<td>true</td>
+<td>The song image</td>
+</tr>
+<tr>
+<td>songUrl</td>
+<td>string</td>
+<td>true</td>
+<td>The song url</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>number</td>
+<td>true</td>
+<td>The song duration</td>
+</tr>
+<tr>
+<td>genre</td>
+<td>string</td>
+<td>true</td>
+<td>The song genre</td>
+</tr>
+</tbody></table>
+
+<!-- <aside>
 p.s. The songs endpoint is not implemented yet.
 </aside>
-<h2 id='get-all-songs'>Get All Songs</h2><h2 id='get-song-by-id'>Get Song by Id</h2><h2 id='get-songs-by-user-id'>Get Songs by User Id</h2><h2 id='get-songs-by-genre'>Get Songs by Genre</h2><h2 id='create-song'>Create Song</h2><h2 id='update-song'>Update Song</h2><h2 id='delete-song'>Delete Song</h2><h1 id='errors'>Errors</h1>
+
+## Get All Songs
+
+## Get Song by Id
+
+## Get Songs by User Id
+
+## Get Songs by Genre
+
+## Create Song
+
+## Update Song
+
+## Delete Song -->
+<h1 id='errors'>Errors</h1>
 <p>The Ziki API uses the following error codes:</p>
 
 <table><thead>
@@ -844,8 +1014,7 @@ p.s. The songs endpoint is not implemented yet.
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="HTTP">HTTP</a>
-                <a href="#" data-language-name="JSON">JSON</a>
+                <a href="#" data-language-name="CURL">CURL</a>
           </div>
       </div>
     </div>
