@@ -90,15 +90,15 @@ All top-level API resources have support for bulk fetches via “list” API met
 You can specify further pages using the page parameter and specify page size. Other parameters include the sort, which will expect a string based attribute name, followed by asc or desc.
 
 ```curl
-curl -X GET '<baseUrl>/songs?page=1&limit=10' -H 'Authorization: Bearer <token>'
+curl -X GET '<baseUrl>/songs?page=1&perPage=10' -H 'Authorization: Bearer <token>'
 ```
 
 ### Query parameters
 
-| Name  | Description                                                                                    |
-| ----- | ---------------------------------------------------------------------------------------------- |
-| page  | Specifies the page number to retrieve. Value must be between 0 and 100.                        |
-| limit | Indicates how many records each page should contain. Value must be greater than or equal to 1. |
+| Name    | Description                                                                  |
+| ------- | ---------------------------------------------------------------------------- |
+| page    | Specifies the page number to retrieve. Value must be between 1 and 100.      |
+| perPage | Indicates how many records each page should contain. The default value is 20 |
 
 # Authentication
 
@@ -394,7 +394,188 @@ This endpoint is used to change user's password.
 If the old password is the same as the new password, the response will contain a 400 status code.
 The response will also contain a message explaining the error.
 
+# Genres
+
+## Get list of genres
+
+> Example Request
+
+```curl
+curl -X GET '<baseUrl>/genres/list'
+```
+
+> Example Response
+
+```json
+{
+  "statusCode": 200,
+  "message": "Successfully retrieved list",
+  "data": [
+    {
+      "id": 1,
+      "name": "Pop"
+    },
+    {
+      "id": 2,
+      "name": "Rock"
+    },
+    {
+      "id": 3,
+      "name": "Rap"
+    },
+    {
+      "id": 4,
+      "name": "Electronic"
+    },
+    {
+      "id": 5,
+      "name": "Jazz"
+    }
+  ]
+}
+```
+
+This endpoint is used to retrieve the list of genres.
+
+### HTTP Request
+
+`GET /genres/list`
+
 # Songs
+
+## Get songs by user id
+
+> Example Request
+
+```curl
+curl -X POST '<baseUrl>/songs?page=1&perPage=2' -H 'Authorization: Bearer <token>'
+```
+
+> Example Response
+
+```json
+{
+  "statusCode": 200,
+  "message": "All songs retrieved successfully",
+  "data": {
+    "totalItems": 8,
+    "totalPage": 4,
+    "currentPage": 3,
+    "itemsPerPage": 2,
+    "items": [
+      {
+        "id": 7,
+        "title": "Song tile",
+        "imageUrl": "http://placeimg.com/640/480",
+        "songUrl": "https://ethelyn.info",
+        "duration": 450,
+        "playsCount": 0,
+        "likesCount": 0,
+        "commentsCount": 0,
+        "createdAt": "2022-03-28T06:25:01.565Z",
+        "updatedAt": "2022-03-28T06:25:01.565Z",
+        "genre": {
+          "id": 1,
+          "name": "Blues",
+          "createdAt": "2022-03-24T02:32:25.572Z",
+          "updatedAt": "2022-03-24T02:32:25.572Z"
+        }
+      },
+      {
+        "id": 8,
+        "title": "Song tile",
+        "imageUrl": "http://placeimg.com/640/480",
+        "songUrl": "http://stevie.net",
+        "duration": 450,
+        "playsCount": 0,
+        "likesCount": 0,
+        "commentsCount": 0,
+        "createdAt": "2022-03-28T06:26:22.242Z",
+        "updatedAt": "2022-03-28T06:26:22.242Z",
+        "genre": {
+          "id": 1,
+          "name": "Blues",
+          "createdAt": "2022-03-24T02:32:25.572Z",
+          "updatedAt": "2022-03-24T02:32:25.572Z"
+        }
+      }
+    ]
+  }
+}
+```
+
+This endpoint is used to retrieve the list of songs. The response will contain the total number of songs,
+the total number of pages, the current page, the number of items per page and the list of songs.
+
+### HTTP Request
+
+`GET /songs?page=1&perPage=20`
+
+Please note that the page and perPage parameters are optional. If they are not provided, the default values will be used.
+
+### Request Header
+
+| Name          | Type   | Required | Description    |
+| ------------- | ------ | -------- | -------------- |
+| Authorization | string | true     | The user token |
+
+### Query Parameters
+
+| Name    | Type   | Required | Description                  |
+| ------- | ------ | -------- | ---------------------------- |
+| page    | number | false    | The page number              |
+| perPage | number | false    | The number of items per page |
+
+## Get song by id
+
+> Example Request
+
+```curl
+curl -X GET '<baseUrl>/songs/8' -H 'Authorization: Bearer <token>'
+```
+
+> Example Response
+
+```json
+{
+  "statusCode": 200,
+  "message": "Song retrieved successfully",
+  "data": {
+    "id": 8,
+    "title": "Song tile",
+    "imageUrl": "http://placeimg.com/640/480",
+    "songUrl": "http://stevie.net",
+    "duration": 450,
+    "playsCount": 0,
+    "likesCount": 0,
+    "commentsCount": 0,
+    "genre": {
+      "id": 1,
+      "name": "Blues",
+      "createdAt": "2022-03-24T02:32:25.572Z",
+      "updatedAt": "2022-03-24T02:32:25.572Z"
+    }
+  }
+}
+```
+
+This endpoint is used to retrieve a song.
+
+### HTTP Request
+
+`POST /songs/<ID>`
+
+### Request Header
+
+| Name          | Type   | Required | Description    |
+| ------------- | ------ | -------- | -------------- |
+| Authorization | string | true     | The user token |
+
+### Path Parameters
+
+| Name | Type   | Required | Description |
+| ---- | ------ | -------- | ----------- |
+| id   | number | true     | The song id |
 
 ## Create Song
 
