@@ -357,8 +357,22 @@
               </ul>
           </li>
           <li>
+            <a href="#genres" class="toc-h1 toc-link" data-title="Genres">Genres</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-list-of-genres" class="toc-h2 toc-link" data-title="Get list of genres">Get list of genres</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#songs" class="toc-h1 toc-link" data-title="Songs">Songs</a>
               <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-songs-by-user-id" class="toc-h2 toc-link" data-title="Get songs by user id">Get songs by user id</a>
+                  </li>
+                  <li>
+                    <a href="#get-song-by-id" class="toc-h2 toc-link" data-title="Get song by id">Get song by id</a>
+                  </li>
                   <li>
                     <a href="#create-song" class="toc-h2 toc-link" data-title="Create Song">Create Song</a>
                   </li>
@@ -423,7 +437,7 @@ The API provides a set of endpoints, each with its own unique path.</p>
 <p>All top-level API resources have support for bulk fetches via “list” API methods. These requests will be paginated to 20 items by default.</p>
 
 <p>You can specify further pages using the page parameter and specify page size. Other parameters include the sort, which will expect a string based attribute name, followed by asc or desc.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>curl -X GET '&lt;baseUrl&gt;/songs?page=1&amp;limit=10' -H 'Authorization: Bearer &lt;token&gt;'
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X GET '&lt;baseUrl&gt;/songs?page=1&amp;perPage=10' -H 'Authorization: Bearer &lt;token&gt;'
 </code></pre></div><h3 id='query-parameters'>Query parameters</h3>
 <table><thead>
 <tr>
@@ -433,11 +447,11 @@ The API provides a set of endpoints, each with its own unique path.</p>
 </thead><tbody>
 <tr>
 <td>page</td>
-<td>Specifies the page number to retrieve. Value must be between 0 and 100.</td>
+<td>Specifies the page number to retrieve. Value must be between 1 and 100.</td>
 </tr>
 <tr>
-<td>limit</td>
-<td>Indicates how many records each page should contain. Value must be greater than or equal to 1.</td>
+<td>perPage</td>
+<td>Indicates how many records each page should contain. The default value is 20</td>
 </tr>
 </tbody></table>
 <h1 id='authentication'>Authentication</h1><h2 id='sign-up'>Sign Up</h2>
@@ -864,7 +878,213 @@ If the username is already taken, the response will contain a 409 status code. S
 
 <p>If the old password is the same as the new password, the response will contain a 400 status code.
 The response will also contain a message explaining the error.</p>
-<h1 id='songs'>Songs</h1><h2 id='create-song'>Create Song</h2>
+<h1 id='genres'>Genres</h1><h2 id='get-list-of-genres'>Get list of genres</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X GET '&lt;baseUrl&gt;/genres/list'
+</code></pre></div>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Successfully retrieved list"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pop"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rock"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rap"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Electronic"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jazz"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint is used to retrieve the list of genres.</p>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>GET /genres/list</code></p>
+<h1 id='songs'>Songs</h1><h2 id='get-songs-by-user-id'>Get songs by user id</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/songs?page=1&amp;perPage=2' -H 'Authorization: Bearer &lt;token&gt;'
+</code></pre></div>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"All songs retrieved successfully"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"totalItems"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"totalPage"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"currentPage"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"itemsPerPage"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Song tile"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"imageUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://placeimg.com/640/480"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"songUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://ethelyn.info"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">450</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"playsCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"likesCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"commentsCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-28T06:25:01.565Z"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-28T06:25:01.565Z"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"genre"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blues"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-24T02:32:25.572Z"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-24T02:32:25.572Z"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Song tile"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"imageUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://placeimg.com/640/480"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"songUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://stevie.net"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">450</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"playsCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"likesCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"commentsCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-28T06:26:22.242Z"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-28T06:26:22.242Z"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"genre"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blues"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-24T02:32:25.572Z"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-24T02:32:25.572Z"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint is used to retrieve the list of songs. The response will contain the total number of songs,
+the total number of pages, the current page, the number of items per page and the list of songs.</p>
+<h3 id='http-request-8'>HTTP Request</h3>
+<p><code>GET /songs?page=1&amp;perPage=20</code></p>
+
+<p>Please note that the page and perPage parameters are optional. If they are not provided, the default values will be used.</p>
+<h3 id='request-header-5'>Request Header</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Authorization</td>
+<td>string</td>
+<td>true</td>
+<td>The user token</td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-2'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>page</td>
+<td>number</td>
+<td>false</td>
+<td>The page number</td>
+</tr>
+<tr>
+<td>perPage</td>
+<td>number</td>
+<td>false</td>
+<td>The number of items per page</td>
+</tr>
+</tbody></table>
+<h2 id='get-song-by-id'>Get song by id</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X GET '&lt;baseUrl&gt;/songs/8' -H 'Authorization: Bearer &lt;token&gt;'
+</code></pre></div>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Song retrieved successfully"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Song tile"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"imageUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://placeimg.com/640/480"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"songUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://stevie.net"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"duration"</span><span class="p">:</span><span class="w"> </span><span class="mi">450</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"playsCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"likesCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"commentsCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"genre"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Blues"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-24T02:32:25.572Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-24T02:32:25.572Z"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint is used to retrieve a song.</p>
+<h3 id='http-request-9'>HTTP Request</h3>
+<p><code>POST /songs/&lt;ID&gt;</code></p>
+<h3 id='request-header-6'>Request Header</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Authorization</td>
+<td>string</td>
+<td>true</td>
+<td>The user token</td>
+</tr>
+</tbody></table>
+<h3 id='path-parameters'>Path Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>number</td>
+<td>true</td>
+<td>The song id</td>
+</tr>
+</tbody></table>
+<h2 id='create-song'>Create Song</h2>
 <blockquote>
 <p>Example Request</p>
 </blockquote>
@@ -888,9 +1108,9 @@ The response will also contain a message explaining the error.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>This endpoint is used to create a song.</p>
-<h3 id='http-request-7'>HTTP Request</h3>
+<h3 id='http-request-10'>HTTP Request</h3>
 <p><code>POST /songs/create</code></p>
-<h3 id='request-header-5'>Request Header</h3>
+<h3 id='request-header-7'>Request Header</h3>
 <table><thead>
 <tr>
 <th>Name</th>
