@@ -40,7 +40,7 @@ We have language bindings in cURL, and HTTP! You can view code examples in the d
 
 ## Base URL
 
-The base URL of Ziki API is: `https://example.com/api/v1`. You can use this URL to access the Ziki API endpoints.
+The base URL of Ziki API is: `http://188.166.62.35/api`. You can use this URL to access the Ziki API endpoints.
 The API provides a set of endpoints, each with its own unique path.
 
 ## i18n (Internationalization)
@@ -102,21 +102,17 @@ curl -X GET '<baseUrl>/songs?page=1&perPage=10' -H 'Authorization: Bearer <token
 
 # Authentication
 
-## Sign Up
+## Register
 
 > Example Request
 
 ```curl
-curl -X POST '<baseUrl>/auth/signup'  -d '{
-  "firstName": "Jean",
-    "lastName": "Dupont",
-    "username": "jean_d01",
-    "gender": "Male",
-    "email": "jeandupon@gmail.com",
-    "phone": 650504571,
-    "password": "@Password#123",
-    "profilPicUrl": "https://www.google.com/img/logo.png",
-    "intro": "I am a web developer"
+curl -X POST '<baseUrl>/auth/register'  -d '{
+ "firstName": "John",
+  "lastName": "Doe",
+  "username": "johndoe",
+  "email": "johndoe@gmail.com",
+  "password": "Password@123"
 }'
 ```
 
@@ -125,48 +121,53 @@ curl -X POST '<baseUrl>/auth/signup'  -d '{
 ```json
 {
   "statusCode": 201,
-  "message": "User created successfully.",
+  "message": "User registered successfully.",
   "data": {
-    "id": 1,
-    "fistName": "Jean",
-    "lastName": "Dupont",
-    "username": "jean_d01",
-    "email": "jeandupon@gmail.com",
-    "intro": "I am a web developer",
-    "profilePicUrl": "https://www.google.com/img/logo.png",
-    "registerAt": "2022-01-18T18:00:21.582Z"
+    "user": {
+      "id": 1,
+      "email": "johndoe@gmail.com",
+      "provider": "email",
+      "profile": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "username": "johndoe",
+        "gender": "Unspecified",
+        "phone": null,
+        "intro": null,
+        "status": "Pending",
+        "profilePicUrl": null,
+        "deletedAt": null
+      }
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
   }
 }
 ```
 
-Sign up for a new user account.
+Register for a new user account.
 
 ### HTTP Request
 
-`POST /auth/signup`
+`POST /auth/register`
 
 ### Request Body
 
-| Name         | Type   | Required | Description                                                              |
-| ------------ | ------ | -------- | ------------------------------------------------------------------------ |
-| firstName    | string | true     | The first name of the user                                               |
-| lastName     | string | true     | The last name of the user                                                |
-| username     | string | true     | The username of the user                                                 |
-| gender       | string | true     | Gender as provided by the user. Can be "Male", "Female" or "Transgender" |
-| email        | string | true     | The user email                                                           |
-| phone        | number | true     | Phone provided by the user                                               |
-| password     | string | true     | The user password                                                        |
-| profilPicUrl | string | false    | Profile photo transformed to 128x128 px                                  |
-| intro        | string | true     | A short introduction of the user                                         |
+| Name      | Type   | Required | Description                |
+| --------- | ------ | -------- | -------------------------- |
+| firstName | string | true     | The first name of the user |
+| lastName  | string | true     | The last name of the user  |
+| username  | string | true     | The username of the user   |
+| email     | string | true     | The user email             |
+| password  | string | true     | The user password          |
 
-## Sign In
+## Login
 
 > Example Request
 
 ```curl
-curl -X POST '<baseUrl>/auth/signin' -H 'x-custom-lang: fr'  -d '{
-  "email": "jeandupon@gmail.com",
-  "password": "@Password#123"
+curl -X POST '<baseUrl>/auth/login' -H 'x-custom-lang: fr'  -d '{
+  "email": "johndoe@gmail.com",
+  "password": "Password#123"
 }'
 ```
 
@@ -175,28 +176,34 @@ curl -X POST '<baseUrl>/auth/signin' -H 'x-custom-lang: fr'  -d '{
 ```json
 {
   "statusCode": 200,
-  "message": "Utilisateur connecté avec succès",
+  "message": "User logged in successfully.",
   "data": {
     "user": {
       "id": 1,
-      "fistName": "Jean",
-      "lastName": "Dupont",
-      "username": "jean_d01",
-      "email": "jeandupon@gmail.com",
-      "intro": "I am a web developer",
-      "profilePicUrl": "https://www.google.com/img/logo.png",
-      "registerAt": "2022-01-18T18:49:14.793Z"
+      "email": "johndoe@gmail.com",
+      "provider": "email",
+      "profile": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "username": "johndoe",
+        "gender": "Unspecified",
+        "phone": null,
+        "intro": null,
+        "status": "Pending",
+        "profilePicUrl": null,
+        "deletedAt": null
+      }
     },
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiamVhbmR1cG9uQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiamVhbl9kMDEiLCJpYXQiOjE2NDI1MzE4NjcsImV4cCI6MTY0MjYxODI2N30.Ngj04it4Sbn0Ap3q0qfNpjSnnwAscQwFc6AjN6WkIv4"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
   }
 }
 ```
 
-The sign in endpoint is used to authenticate a user. It expects a email and password in the request body. The response will contain a token that can be used to authenticate future requests.
+The login endpoint is used to authenticate a user. It expects a email and password in the request body. The response will contain a token that can be used to authenticate future requests.
 
 ### HTTP Request
 
-`POST /auth/signin`
+`POST /auth/login`
 
 ### Request Body
 
@@ -204,6 +211,86 @@ The sign in endpoint is used to authenticate a user. It expects a email and pass
 | -------- | ------ | -------- | ----------------- |
 | email    | string | true     | The user email    |
 | password | string | true     | The user password |
+
+<!-- ## Login with Google -->
+
+<!-- ## Login with Facebook -->
+
+## Forgot Password
+
+> Example Request
+
+```curl
+curl -X POST '<baseUrl>/auth/forgot-password' -H 'x-custom-lang: fr'  -d '{
+  "email": "johndoe@gmail.com"
+}'
+```
+
+> Example Response
+
+```json
+{
+  "statusCode": 200,
+  "message": "Password reset email sent successfully.",
+  "data": {
+    "success": true
+  }
+}
+```
+
+This endpoint is used to send an OTP code in the user's email that allows the user to reset his password. It expects a email in the request body.
+
+### HTTP Request
+
+`POST /auth/forgot-password`
+
+### Request Body
+
+| Name  | Type   | Required | Description    |
+| ----- | ------ | -------- | -------------- |
+| email | string | true     | The user email |
+
+<!-- ## Check OTP Code -->
+
+## Reset Password
+
+> Example Request
+
+```curl
+curl -X POST '<baseUrl>/auth/forgot-password' -H 'x-custom-lang: fr'  -d '{
+  "password": "@Password#1234",
+  "otpCode": "123456"
+}'
+```
+
+> Example Response
+
+```json
+{
+  "statusCode": 200,
+  "message": "Password reset successfully.",
+  "data": {
+    "success": true
+  }
+}
+```
+
+This endpoint is used to reset the user password. It expects a password and otpCode in the request body.
+
+### HTTP Request
+
+`POST /auth/reset-password`
+
+### Request Body
+
+| Name     | Type   | Required | Description                   |
+| -------- | ------ | -------- | ----------------------------- |
+| password | string | true     | The new user password         |
+| otpCode  | string | true     | The otp code sent to the user |
+
+|
+
+<!-- ## Verify Email -->
 
 # Profile
 
@@ -223,23 +310,24 @@ curl -X GET '<baseUrl>/profile' -H 'Authorization: Bearer <token>'
   "message": "Profile successfully fetched",
   "data": {
     "id": 1,
-    "fistName": "Jean",
-    "lastName": "Freddy",
-    "username": "Rogelio19",
+    "firstName": "John",
+    "lastName": "Doe",
+    "username": "johndoe",
     "gender": "Male",
-    "phone": 650504571,
-    "email": "Tomas25@hotmail.com",
-    "profilePicUrl": "http://placeimg.com/640/480",
+    "phone": "672505050",
+    "email": "johndoe@gmail.com",
+    "intro": "Hi! I'm a mobile developer. I love to create apps for the Android and iOS platforms.",
+    "status": "Pending",
+    "profilePicUrl": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress",
     "isVerified": false,
     "followersCount": 0,
     "followingCount": 0,
     "songCount": 0,
     "playlistCount": 0,
-    "lastLogin": "2022-03-27T22:39:32.081Z",
-    "status": {
-      "id": 1,
-      "name": "Active"
-    }
+    "lastLogin": "2022-07-23T03:04:01.348Z",
+    "registeredAt": "2022-07-22T23:17:00.550Z",
+    "updatedAt": "2022-07-23T02:04:01.355Z",
+    "deletedAt": null
   }
 }
 ```
