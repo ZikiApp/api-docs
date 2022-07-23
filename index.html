@@ -332,10 +332,16 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#sign-up" class="toc-h2 toc-link" data-title="Sign Up">Sign Up</a>
+                    <a href="#register" class="toc-h2 toc-link" data-title="Register">Register</a>
                   </li>
                   <li>
-                    <a href="#sign-in" class="toc-h2 toc-link" data-title="Sign In">Sign In</a>
+                    <a href="#login" class="toc-h2 toc-link" data-title="Login">Login</a>
+                  </li>
+                  <li>
+                    <a href="#forgot-password" class="toc-h2 toc-link" data-title="Forgot Password">Forgot Password</a>
+                  </li>
+                  <li>
+                    <a href="#reset-password" class="toc-h2 toc-link" data-title="Reset Password">Reset Password</a>
                   </li>
               </ul>
           </li>
@@ -398,7 +404,7 @@
 
 <p>We have language bindings in cURL, and HTTP! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
 <h2 id='base-url'>Base URL</h2>
-<p>The base URL of Ziki API is: <code>https://example.com/api/v1</code>. You can use this URL to access the Ziki API endpoints.
+<p>The base URL of Ziki API is: <code>http://188.166.62.35/api</code>. You can use this URL to access the Ziki API endpoints.
 The API provides a set of endpoints, each with its own unique path.</p>
 <h2 id='i18n-internationalization'>i18n (Internationalization)</h2>
 <p>The Ziki API is internationalized. You can use the <code>x-custom-lang</code> header to specify the language you want to use. The list of supported languages is: <a href="default:%20`en`"><code>en</code>, <code>fr</code></a> and default language is <code>en</code>.</p>
@@ -454,20 +460,16 @@ The API provides a set of endpoints, each with its own unique path.</p>
 <td>Indicates how many records each page should contain. The default value is 20</td>
 </tr>
 </tbody></table>
-<h1 id='authentication'>Authentication</h1><h2 id='sign-up'>Sign Up</h2>
+<h1 id='authentication'>Authentication</h1><h2 id='register'>Register</h2>
 <blockquote>
 <p>Example Request</p>
 </blockquote>
-<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/auth/signup'  -d '{
-  "firstName": "Jean",
-    "lastName": "Dupont",
-    "username": "jean_d01",
-    "gender": "Male",
-    "email": "jeandupon@gmail.com",
-    "phone": 650504571,
-    "password": "@Password#123",
-    "profilPicUrl": "https://www.google.com/img/logo.png",
-    "intro": "I am a web developer"
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/auth/register'  -d '{
+ "firstName": "John",
+  "lastName": "Doe",
+  "username": "johndoe",
+  "email": "johndoe@gmail.com",
+  "password": "Password@123"
 }'
 </code></pre></div>
 <blockquote>
@@ -475,22 +477,31 @@ The API provides a set of endpoints, each with its own unique path.</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">201</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User created successfully."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User registered successfully."</span><span class="p">,</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fistName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jean"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dupont"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jean_d01"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jeandupon@gmail.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"intro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I am a web developer"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.google.com/img/logo.png"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"registerAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-01-18T18:00:21.582Z"</span><span class="w">
+    </span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"johndoe@gmail.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"profile"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"johndoe"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unspecified"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"intro"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pending"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"deletedAt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>Sign up for a new user account.</p>
+<p>Register for a new user account.</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>POST /auth/signup</code></p>
+<p><code>POST /auth/register</code></p>
 <h3 id='request-body'>Request Body</h3>
 <table><thead>
 <tr>
@@ -519,22 +530,10 @@ The API provides a set of endpoints, each with its own unique path.</p>
 <td>The username of the user</td>
 </tr>
 <tr>
-<td>gender</td>
-<td>string</td>
-<td>true</td>
-<td>Gender as provided by the user. Can be &quot;Male&quot;, &quot;Female&quot; or &quot;Transgender&quot;</td>
-</tr>
-<tr>
 <td>email</td>
 <td>string</td>
 <td>true</td>
 <td>The user email</td>
-</tr>
-<tr>
-<td>phone</td>
-<td>number</td>
-<td>true</td>
-<td>Phone provided by the user</td>
 </tr>
 <tr>
 <td>password</td>
@@ -542,26 +541,14 @@ The API provides a set of endpoints, each with its own unique path.</p>
 <td>true</td>
 <td>The user password</td>
 </tr>
-<tr>
-<td>profilPicUrl</td>
-<td>string</td>
-<td>false</td>
-<td>Profile photo transformed to 128x128 px</td>
-</tr>
-<tr>
-<td>intro</td>
-<td>string</td>
-<td>true</td>
-<td>A short introduction of the user</td>
-</tr>
 </tbody></table>
-<h2 id='sign-in'>Sign In</h2>
+<h2 id='login'>Login</h2>
 <blockquote>
 <p>Example Request</p>
 </blockquote>
-<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/auth/signin' -H 'x-custom-lang: fr'  -d '{
-  "email": "jeandupon@gmail.com",
-  "password": "@Password#123"
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/auth/login' -H 'x-custom-lang: fr'  -d '{
+  "email": "johndoe@gmail.com",
+  "password": "Password#123"
 }'
 </code></pre></div>
 <blockquote>
@@ -569,25 +556,31 @@ The API provides a set of endpoints, each with its own unique path.</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Utilisateur connecté avec succès"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User logged in successfully."</span><span class="p">,</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"fistName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jean"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dupont"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jean_d01"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jeandupon@gmail.com"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"intro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I am a web developer"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.google.com/img/logo.png"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"registerAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-01-18T18:49:14.793Z"</span><span class="w">
+      </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"johndoe@gmail.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"profile"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"johndoe"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unspecified"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"intro"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pending"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"deletedAt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+      </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiamVhbmR1cG9uQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiamVhbl9kMDEiLCJpYXQiOjE2NDI1MzE4NjcsImV4cCI6MTY0MjYxODI2N30.Ngj04it4Sbn0Ap3q0qfNpjSnnwAscQwFc6AjN6WkIv4"</span><span class="w">
+    </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>The sign in endpoint is used to authenticate a user. It expects a email and password in the request body. The response will contain a token that can be used to authenticate future requests.</p>
+<p>The login endpoint is used to authenticate a user. It expects a email and password in the request body. The response will contain a token that can be used to authenticate future requests.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>POST /auth/signin</code></p>
+<p><code>POST /auth/login</code></p>
 <h3 id='request-body-2'>Request Body</h3>
 <table><thead>
 <tr>
@@ -610,6 +603,103 @@ The API provides a set of endpoints, each with its own unique path.</p>
 <td>The user password</td>
 </tr>
 </tbody></table>
+
+<!-- ## Login with Google -->
+
+<!-- ## Login with Facebook -->
+<h2 id='forgot-password'>Forgot Password</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/auth/forgot-password' -H 'x-custom-lang: fr'  -d '{
+  "email": "johndoe@gmail.com"
+}'
+</code></pre></div>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password reset email sent successfully."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint is used to send an OTP code in the user&#39;s email that allows the user to reset his password. It expects a email in the request body.</p>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>POST /auth/forgot-password</code></p>
+<h3 id='request-body-3'>Request Body</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>true</td>
+<td>The user email</td>
+</tr>
+</tbody></table>
+
+<!-- ## Check OTP Code -->
+<h2 id='reset-password'>Reset Password</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>curl -X POST '&lt;baseUrl&gt;/auth/forgot-password' -H 'x-custom-lang: fr'  -d '{
+  "password": "@Password#1234",
+  "otpCode": "123456"
+}'
+</code></pre></div>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"statusCode"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Password reset successfully."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>This endpoint is used to reset the user password. It expects a password and otpCode in the request body.</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>POST /auth/reset-password</code></p>
+<h3 id='request-body-4'>Request Body</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>true</td>
+<td>The new user password</td>
+</tr>
+<tr>
+<td>otpCode</td>
+<td>string</td>
+<td>true</td>
+<td>The otp code sent to the user</td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+</tr>
+</thead><tbody>
+</tbody></table>
+
+<!-- ## Verify Email -->
 <h1 id='profile'>Profile</h1><h2 id='get-user-profile'>Get User Profile</h2>
 <blockquote>
 <p>Example Request</p>
@@ -624,28 +714,29 @@ The API provides a set of endpoints, each with its own unique path.</p>
   </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Profile successfully fetched"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fistName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jean"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Freddy"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rogelio19"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"lastName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"johndoe"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Male"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="mi">650504571</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tomas25@hotmail.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://placeimg.com/640/480"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"672505050"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"johndoe@gmail.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"intro"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hi! I'm a mobile developer. I love to create apps for the Android and iOS platforms."</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pending"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"profilePicUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"isVerified"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nl">"followersCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="nl">"followingCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="nl">"songCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="nl">"playlistCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"lastLogin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-03-27T22:39:32.081Z"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Active"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
+    </span><span class="nl">"lastLogin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-07-23T03:04:01.348Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"registeredAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-07-22T23:17:00.550Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"updatedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-07-23T02:04:01.355Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"deletedAt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>The profile endpoint is used to retrieve the user profile.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
+<h3 id='http-request-5'>HTTP Request</h3>
 <p><code>GET /profile</code></p>
 <h3 id='request-header'>Request Header</h3>
 <table><thead>
@@ -690,7 +781,7 @@ The response will also contain a message explaining the error.</p>
 </span></code></pre></div>
 <p>The profile endpoint is used to update the user profile.
 If the username is already taken, the response will contain a 409 status code. Same for the email and the phone.</p>
-<h3 id='http-request-4'>HTTP Request</h3>
+<h3 id='http-request-6'>HTTP Request</h3>
 <p><code>PUT /profile</code></p>
 <h3 id='request-header-2'>Request Header</h3>
 <table><thead>
@@ -708,7 +799,7 @@ If the username is already taken, the response will contain a 409 status code. S
 <td>The user token</td>
 </tr>
 </tbody></table>
-<h3 id='request-body-3'>Request Body</h3>
+<h3 id='request-body-5'>Request Body</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -780,7 +871,7 @@ If the username is already taken, the response will contain a 409 status code. S
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>This endpoint is used to upload a profile picture.</p>
-<h3 id='http-request-5'>HTTP Request</h3>
+<h3 id='http-request-7'>HTTP Request</h3>
 <p><code>POST /profile/profile-pic</code></p>
 <h3 id='request-header-3'>Request Header</h3>
 <table><thead>
@@ -798,7 +889,7 @@ If the username is already taken, the response will contain a 409 status code. S
 <td>The user token</td>
 </tr>
 </tbody></table>
-<h3 id='request-body-4'>Request Body</h3>
+<h3 id='request-body-6'>Request Body</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -835,7 +926,7 @@ If the username is already taken, the response will contain a 409 status code. S
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>This endpoint is used to change user&#39;s password.</p>
-<h3 id='http-request-6'>HTTP Request</h3>
+<h3 id='http-request-8'>HTTP Request</h3>
 <p><code>POST /profile/change-password</code></p>
 <h3 id='request-header-4'>Request Header</h3>
 <table><thead>
@@ -853,7 +944,7 @@ If the username is already taken, the response will contain a 409 status code. S
 <td>The user token</td>
 </tr>
 </tbody></table>
-<h3 id='request-body-5'>Request Body</h3>
+<h3 id='request-body-7'>Request Body</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -915,7 +1006,7 @@ The response will also contain a message explaining the error.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>This endpoint is used to retrieve the list of genres.</p>
-<h3 id='http-request-7'>HTTP Request</h3>
+<h3 id='http-request-9'>HTTP Request</h3>
 <p><code>GET /genres/list</code></p>
 <h1 id='songs'>Songs</h1><h2 id='get-songs-by-user-id'>Get songs by user id</h2>
 <blockquote>
@@ -977,7 +1068,7 @@ The response will also contain a message explaining the error.</p>
 </span></code></pre></div>
 <p>This endpoint is used to retrieve the list of songs. The response will contain the total number of songs,
 the total number of pages, the current page, the number of items per page and the list of songs.</p>
-<h3 id='http-request-8'>HTTP Request</h3>
+<h3 id='http-request-10'>HTTP Request</h3>
 <p><code>GET /songs?page=1&amp;perPage=20</code></p>
 
 <p>Please note that the page and perPage parameters are optional. If they are not provided, the default values will be used.</p>
@@ -1050,7 +1141,7 @@ the total number of pages, the current page, the number of items per page and th
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>This endpoint is used to retrieve a song.</p>
-<h3 id='http-request-9'>HTTP Request</h3>
+<h3 id='http-request-11'>HTTP Request</h3>
 <p><code>POST /songs/&lt;ID&gt;</code></p>
 <h3 id='request-header-6'>Request Header</h3>
 <table><thead>
@@ -1108,7 +1199,7 @@ the total number of pages, the current page, the number of items per page and th
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>This endpoint is used to create a song.</p>
-<h3 id='http-request-10'>HTTP Request</h3>
+<h3 id='http-request-12'>HTTP Request</h3>
 <p><code>POST /songs/create</code></p>
 <h3 id='request-header-7'>Request Header</h3>
 <table><thead>
@@ -1126,7 +1217,7 @@ the total number of pages, the current page, the number of items per page and th
 <td>The user token</td>
 </tr>
 </tbody></table>
-<h3 id='request-body-6'>Request Body</h3>
+<h3 id='request-body-8'>Request Body</h3>
 <table><thead>
 <tr>
 <th>Name</th>
